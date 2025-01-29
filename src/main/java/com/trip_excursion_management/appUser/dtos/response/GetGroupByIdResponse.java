@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.trip_excursion_management.appUser.models.GroupMember;
-import com.trip_excursion_management.appUser.models.Group;
+
 import java.util.List;
+
+import com.trip_excursion_management.appUser.data.models.Group;
+import com.trip_excursion_management.appUser.data.models.GroupMember;
 
 @Data
 @Builder

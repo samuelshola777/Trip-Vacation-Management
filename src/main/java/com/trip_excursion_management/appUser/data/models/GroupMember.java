@@ -1,4 +1,4 @@
-package com.trip_excursion_management.appUser.models;
+package com.trip_excursion_management.appUser.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,26 +10,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import jakarta.persistence.ManyToOne;
+
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Group {
-
+public class GroupMember {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    
+    @ManyToOne
+    private AppUser appUser;
 
-    private String groupName;
+    @ManyToOne
+    private Group group;
 
     private boolean isActive;
 
     private LocalDateTime createdAt;
 
-    private String description;
-
-    private String groupImage;
-
+    private boolean isAdmin;
 }

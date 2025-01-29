@@ -17,7 +17,7 @@ public interface AppUserService {
 
     CreateGroupResponse createGroup(CreateGroupRequest createGroupRequest);
 
-    CreateGroupResponse addAppUserToGroupByEmail(CreateGroupRequest addAppUserToGroupRequest);
+    CreateGroupResponse addAppUserToGroup(CreateGroupRequest addAppUserToGroupRequest);
 
     CreateGroupResponse updateGroup(CreateGroupRequest updateGroupRequest);
 
@@ -25,8 +25,8 @@ public interface AppUserService {
 
     GetGroupByIdResponse getGroupMembers(CreateGroupRequest getGroupMembersRequest);
 
-    CreateGroupResponse makeGroupMemberAdminByEmail(RemoveOrAddToGroupRequest makeGroupMemberAdminRequest);
+    CreateGroupResponse makeGroupMemberAdmin(RemoveOrAddToGroupRequest makeGroupMemberAdminRequest);
 
-    CreateGroupResponse removeAppUserFromGroupByEmail(RemoveOrAddToGroupRequest removeAppUserFromGroupRequest);
+    CreateGroupResponse removeAppUserFromGroup(RemoveOrAddToGroupRequest removeAppUserFromGroupRequest);
 
 }

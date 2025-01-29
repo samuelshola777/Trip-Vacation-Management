@@ -1,4 +1,4 @@
-package com.trip_excursion_management.appUser.repository;
+package com.trip_excursion_management.appUser.data.repository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.trip_excursion_management.appUser.models.GroupMember;
+import com.trip_excursion_management.appUser.data.models.GroupMember;
 
 public interface GroupMemberRepository extends JpaRepository<GroupMember, UUID> {
     boolean existsByAppUserAndGroup(UUID appUserId, UUID groupId);

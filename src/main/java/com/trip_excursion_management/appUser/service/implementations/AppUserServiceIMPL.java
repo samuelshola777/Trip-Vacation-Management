@@ -6,18 +6,18 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.trip_excursion_management.appUser.repository.AppUserRepository;
-import com.trip_excursion_management.appUser.repository.AppUserRoleRepository;
-import com.trip_excursion_management.appUser.repository.AppUserRoleControlRepository;
-import com.trip_excursion_management.appUser.repository.GroupRepository;
-import com.trip_excursion_management.appUser.repository.GroupMemberRepository;
 import com.trip_excursion_management.appUser.service.interfaces.AppUserService;
-import com.trip_excursion_management.appUser.models.AppUser;
-import com.trip_excursion_management.appUser.models.Group;
-import com.trip_excursion_management.appUser.models.GroupMember;
-import com.trip_excursion_management.appUser.models.AppUserRole;
-import com.trip_excursion_management.appUser.models.AppUserRoleControl;
 import com.trip_excursion_management.appUser.dtos.request.RegisterAppUserRequest;
+import com.trip_excursion_management.appUser.data.models.AppUser;
+import com.trip_excursion_management.appUser.data.models.AppUserRole;
+import com.trip_excursion_management.appUser.data.models.AppUserRoleControl;
+import com.trip_excursion_management.appUser.data.models.Group;
+import com.trip_excursion_management.appUser.data.models.GroupMember;
+import com.trip_excursion_management.appUser.data.repository.AppUserRepository;
+import com.trip_excursion_management.appUser.data.repository.AppUserRoleControlRepository;
+import com.trip_excursion_management.appUser.data.repository.AppUserRoleRepository;
+import com.trip_excursion_management.appUser.data.repository.GroupMemberRepository;
+import com.trip_excursion_management.appUser.data.repository.GroupRepository;
 import com.trip_excursion_management.appUser.dtos.request.CreateGroupRequest;
 import com.trip_excursion_management.appUser.dtos.request.RemoveOrAddToGroupRequest;
 import com.trip_excursion_management.appUser.dtos.response.RegisterAppUserResponse;
@@ -227,9 +227,31 @@ public RegisterAppUserResponse deleteAppUser(String appUserId){
 
 
     @Override
-    public CreateGroupResponse addAppUserToGroupByEmail(CreateGroupRequest addAppUserToGroupRequest){
+    public CreateGroupResponse addAppUserToGroup(CreateGroupRequest addAppUserToGroupRequest){
          AppUser appUser = null;
          Group group = null;
+         try{
+            if(addAppUserToGroupRequest.getAppUserPhoneNumber().size() != 0){
+                for(String phoneNumber : addAppUserToGroupRequest.getAppUserPhoneNumber()){
+                    appUser = appUserRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("App User not found"));
+                    group = groupRepository.findById(addAppUserToGroupRequest.getGroupId()).orElseThrow(() -> new RuntimeException("Group not found"));
+                    boolean isMember = groupMemberRepository.existsByAppUserAndGroup(appUser.getId(), group.getId());
+                    if(!isMember) {
+                        GroupMember groupMember = GroupMember.builder()
+                        .appUser(appUser)
+                        .group(group)
+                        .isActive(true)
+                        .createdAt(LocalDateTime.now())
+                        .isAdmin(false)
+                        .build();
+                        groupMemberRepository.save(groupMember);
+                    }
+                }
+            }
+         }
+         catch(Exception e){
+            System.err.println("Error adding users to group: " + e.getMessage());
+         }
         if(addAppUserToGroupRequest.getAppUserEmail().size() != 0){
             for(String email : addAppUserToGroupRequest.getAppUserEmail()){
               
@@ -272,21 +294,32 @@ public RegisterAppUserResponse deleteAppUser(String appUserId){
     }
 
     @Override
-    public CreateGroupResponse removeAppUserFromGroupByEmail(RemoveOrAddToGroupRequest removeAppUserFromGroupRequest){
+    public CreateGroupResponse removeAppUserFromGroup(RemoveOrAddToGroupRequest removeAppUserFromGroupRequest){
         AppUser appUser = null;
-        try {
+        try{
+             if(removeAppUserFromGroupRequest.getAppUserPhoneNumber().size() != 0){
+            for(String phoneNumber : removeAppUserFromGroupRequest.getAppUserPhoneNumber()){
+                appUser = appUserRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("App User not found"));
+                groupMemberRepository.deleteByAppUserAndGroup(appUser.getId(), removeAppUserFromGroupRequest.getGroupId());
+            }
+        }
+        }catch(Exception e){
+            System.err.println("Error removing users from group: " + e.getMessage());
+        }
+       
+
+        if(removeAppUserFromGroupRequest.getAppUserEmail().size() != 0){
             for(String email : removeAppUserFromGroupRequest.getAppUserEmail()){
                 try {
-
                     appUser = appUserRepository.findByEmail(email)
                         .orElseThrow(() -> new RuntimeException("App User not found"));
-                    groupMemberRepository.deleteByAppUserAndGroup(appUser.getId(), removeAppUserFromGroupRequest.getGroupId());
-                } catch (Exception e) {
-                    
-                    System.err.println("Error removing user with email " + email + ": " + e.getMessage());
-                    continue;
+                        groupMemberRepository.deleteByAppUserAndGroup(appUser.getId(), removeAppUserFromGroupRequest.getGroupId());
+                }catch(Exception e){
+                    System.err.println("Error removing users from group: " + e.getMessage());
                 }
             }
+        }
+
           
             return CreateGroupResponse.builder()
                 .message("App Users removed from group successfully") 
@@ -295,16 +328,6 @@ public RegisterAppUserResponse deleteAppUser(String appUserId){
                 .groupImage("Group Image")
                 .statusCode("200")
                 .build();
-                
-        } catch (Exception e) {
-            return CreateGroupResponse.builder()
-                .message("Error removing users from group: " + e.getMessage())
-                .groupName("Group Name")
-                .description("Group Description") 
-                .groupImage("Group Image")
-                .statusCode("500")
-                .build();
-        }
     }
 
     @Override
@@ -359,13 +382,29 @@ public RegisterAppUserResponse deleteAppUser(String appUserId){
     }
     
     @Override
-    public CreateGroupResponse makeGroupMemberAdminByEmail(RemoveOrAddToGroupRequest request) {
+    public CreateGroupResponse makeGroupMemberAdmin(RemoveOrAddToGroupRequest request) {
+
+        AppUser appUser = null;
+        GroupMember groupMember = null;
+      try{
+        if(request.getAppUserPhoneNumber().size() != 0){
+            for(String phoneNumber : request.getAppUserPhoneNumber()){
+                appUser = appUserRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new RuntimeException("App User not found"));
+                groupMember = groupMemberRepository.findByAppUserAndGroup(appUser.getId(), request.getGroupId()).orElseThrow(() -> new RuntimeException("Group Member not found"));
+                groupMember.setAdmin(true);
+                groupMemberRepository.save(groupMember);
+            }
+        }
+      }catch(Exception e){
+        System.err.println("Error promoting members to admin: " + e.getMessage());
+      }
+
         try {
             for(String email : request.getAppUserEmail()) {
-                AppUser appUser = appUserRepository.findByEmail(email)
+                appUser = appUserRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("App User not found"));
                     
-                GroupMember groupMember = groupMemberRepository.findByAppUserAndGroup(appUser.getId(), request.getGroupId())
+                 groupMember = groupMemberRepository.findByAppUserAndGroup(appUser.getId(), request.getGroupId())
                     .orElseThrow(() -> new RuntimeException("Group Member not found"));
                 
                 groupMember.setAdmin(true);

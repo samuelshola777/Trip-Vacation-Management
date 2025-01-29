@@ -1,4 +1,4 @@
-package com.trip_excursion_management.appUser.models;
+package com.trip_excursion_management.appUser.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

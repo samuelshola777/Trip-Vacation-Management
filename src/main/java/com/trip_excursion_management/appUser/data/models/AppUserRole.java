@@ -1,4 +1,4 @@
-package com.trip_excursion_management.appUser.models;
+package com.trip_excursion_management.appUser.data.models;
 
 import java.util.UUID;
 
