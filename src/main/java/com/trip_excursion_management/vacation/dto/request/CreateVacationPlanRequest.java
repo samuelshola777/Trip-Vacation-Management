@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 public class CreateVacationPlanRequest {
+    private UUID id;
     private UUID vacationId;
     private String name;
     private String description;
