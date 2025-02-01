@@ -28,10 +28,15 @@ public class VacationPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    // just a name of the vacation more like celebrate esther on a trip
     private String name;
+    // a description of the vacation plan
     private String description;
+    // the day the day the customer will like to go for the vacation ride
     private LocalDate startDate;
+    // after the admin receives the request the admin sets the end of the vacation, more like  if the customer didn't show up in this period of time the admin will cancel the vacation trip
     private LocalDate endDate;
+    // the group that the vacation plan is for
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = true)
     private Group group;

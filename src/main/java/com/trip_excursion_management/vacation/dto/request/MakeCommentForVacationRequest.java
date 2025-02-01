@@ -15,4 +15,5 @@ public class MakeCommentForVacationRequest {
     private String comment;
     private int rating;
     private UUID authorId;
+    private UUID vacationCommentId;
 }
