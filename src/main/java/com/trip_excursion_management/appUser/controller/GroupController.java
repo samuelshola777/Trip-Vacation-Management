@@ -12,6 +12,7 @@ import com.trip_excursion_management.appUser.dtos.request.CreateGroupRequest;
 import com.trip_excursion_management.appUser.dtos.request.RemoveOrAddToGroupRequest;
 import com.trip_excursion_management.appUser.dtos.response.CreateGroupResponse;
 import com.trip_excursion_management.appUser.dtos.response.GetGroupByIdResponse;
+import com.trip_excursion_management.appUser.dtos.request.AddAppUserToGroupRequest;
 
 @RestController
 @RequestMapping("/api/group")
@@ -25,7 +26,7 @@ public class GroupController {
     }
 
     @PostMapping("/add-to-group")
-    public ResponseEntity<CreateGroupResponse> addToGroup(@RequestBody CreateGroupRequest request){
+    public ResponseEntity<CreateGroupResponse> addToGroup(@RequestBody AddAppUserToGroupRequest request){
         return ResponseEntity.ok(groupService.addAppUserToGroup(request));
     }
 

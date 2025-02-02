@@ -17,8 +17,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-
-
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 @Entity
 @Data
 @AllArgsConstructor
@@ -36,8 +37,11 @@ public class VacationPlan {
     private LocalDate startDate;
     // after the admin receives the request the admin sets the end of the vacation, more like  if the customer didn't show up in this period of time the admin will cancel the vacation trip
     private LocalDate endDate;
+    @Enumerated(EnumType.STRING)
+    private VacationPlanStatus vacationPlanStatus;
+
     // the group that the vacation plan is for
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", nullable = true)
     private Group group;
     @ManyToOne(fetch = FetchType.LAZY)
