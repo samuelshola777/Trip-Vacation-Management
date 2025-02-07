@@ -35,7 +35,7 @@ public class AppUserController {
         return ResponseEntity.ok(appUserService.deleteAppUser(appUserId));
     }
     @GetMapping("/get-by-id")
-    public ResponseEntity<AppUserResponse> getAppUserById(@RequestBody UUID appUserId){
+    public ResponseEntity<AppUserResponse> getAppUserById(@RequestBody Long appUserId){
         return ResponseEntity.ok(appUserService.getAppUserById(appUserId));
     }
     @GetMapping("/get-all")

@@ -30,9 +30,10 @@ public class VacationPlanController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<VacationPlan> getVacationPlan(@PathVariable UUID id){
+    public ResponseEntity<VacationPlan> getVacationPlan(@PathVariable Long id){
         return ResponseEntity.ok(vacationPlanService.getVacationPlan(id));
     }
+
 
     @GetMapping("/get/all")
     public ResponseEntity<List<VacationPlan>> getAllVacationPlan(){
@@ -45,7 +46,8 @@ public class VacationPlanController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<VacationPlan> deleteVacationPlan(@PathVariable UUID id){
+    public ResponseEntity<VacationPlan> deleteVacationPlan(@PathVariable Long id){
         return ResponseEntity.ok(vacationPlanService.deleteVacationPlan(id));
     }
+
 }

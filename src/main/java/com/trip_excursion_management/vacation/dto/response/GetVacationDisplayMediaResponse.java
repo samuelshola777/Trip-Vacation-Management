@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetVacationDisplayMediaResponse {
-    private UUID id;
+    private Long id;
     private String mediaUrl;
     private String description;
     private int rating;

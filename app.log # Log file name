@@ -1,0 +1,54 @@
+2025-02-04T23:46:39.003+01:00 ERROR 6444 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'logging.level.org.springframework' to org.springframework.boot.logging.LogLevel:
+
+    Property: logging.level.org.springframework
+    Value: "INFO # Set log level for Spring"
+    Origin: class path resource [application.properties] - 9:35
+    Reason: failed to convert java.lang.String to org.springframework.boot.logging.LogLevel (caused by java.lang.IllegalArgumentException: No enum constant org.springframework.boot.logging.LogLevel.INFO # Set log level for Spring)
+
+Action:
+
+Update your application's configuration. The following values are valid:
+
+    DEBUG
+    ERROR
+    FATAL
+    INFO
+    OFF
+    TRACE
+    WARN
+
+2025-02-04T23:50:03.997+01:00 ERROR 2944 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'logging.level.org.springframework' to org.springframework.boot.logging.LogLevel:
+
+    Property: logging.level.org.springframework
+    Value: "INFO # Set log level for Spring"
+    Origin: class path resource [application.properties] - 9:35
+    Reason: failed to convert java.lang.String to org.springframework.boot.logging.LogLevel (caused by java.lang.IllegalArgumentException: No enum constant org.springframework.boot.logging.LogLevel.INFO # Set log level for Spring)
+
+Action:
+
+Update your application's configuration. The following values are valid:
+
+    DEBUG
+    ERROR
+    FATAL
+    INFO
+    OFF
+    TRACE
+    WARN
+

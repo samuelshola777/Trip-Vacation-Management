@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.trip_excursion_management.vacation.dto.request.CreateVacationRequest;
 import com.trip_excursion_management.vacation.dto.response.CreateVacationResponse;
 import com.trip_excursion_management.vacation.dto.response.GetVacationResponse;
-import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -63,13 +62,14 @@ return CreateVacationResponse.builder()
 }
 
 @Override
-public GetVacationResponse getVacation(UUID id) {
+public GetVacationResponse getVacation(Long id) {
     Vacation vacation = vacationRepository.findById(id).orElseThrow(() -> new RuntimeException("Vacation not found"));
     return GetVacationResponse.builder()
     .message("Vacation retrieved successfully")
     .status("success")
     .code("200")
     .data(vacation)
+
     .build();
 }
 
@@ -116,9 +116,10 @@ public CreateVacationResponse updateVacation(CreateVacationRequest request) {
 
 
 @Override
-public CreateVacationResponse deleteVacation(UUID id) {
+public CreateVacationResponse deleteVacation(Long id) {
     Vacation vacation = vacationRepository.findById(id).orElseThrow(() -> new RuntimeException("Vacation not found"));
     vacation.setDeleted(true);
+
     vacationRepository.save(vacation);
     return CreateVacationResponse.builder()
     .message("Vacation deleted successfully")
@@ -145,12 +146,13 @@ public List<GetVacationResponse> getAllDeletedVacations() {
 }
 
 @Override
-public CreateVacationResponse restoreVacation(UUID id) {
+public CreateVacationResponse restoreVacation(Long id) {
     Vacation vacation = vacationRepository.findById(id).orElseThrow(() -> new RuntimeException("Vacation not found"));
     vacation.setDeleted(false);
     vacationRepository.save(vacation);
     return CreateVacationResponse.builder()
     .message("Vacation restored successfully")
+
     .status("success")
     .code("200")
     .id(vacation.getId())

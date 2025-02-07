@@ -14,6 +14,6 @@ public class RegisterAppUserRequest {
     private String lastName;
     private String phoneNumber;
     private String profilePictureLink;
-    private UUID appUserId;
+    private Long appUserId;
     
 }

@@ -3,7 +3,6 @@ import com.trip_excursion_management.appUser.dtos.response.AppUserResponse;
 import com.trip_excursion_management.appUser.dtos.response.RegisterAppUserResponse;
 import com.trip_excursion_management.appUser.dtos.request.RegisterAppUserRequest;
 
-import java.util.UUID;
 import java.util.List;
 
 public interface AppUserService {
@@ -13,9 +12,10 @@ public interface AppUserService {
     RegisterAppUserResponse updateAppUser(RegisterAppUserRequest updateRequest);
 
     RegisterAppUserResponse deleteAppUser(String appUserId);
-    AppUserResponse getAppUserById(UUID appUserId);
+    AppUserResponse getAppUserById(Long appUserId);
     List<AppUserResponse> getAllAppUsers();
 
    
+
 
 }

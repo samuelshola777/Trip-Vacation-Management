@@ -38,7 +38,6 @@ public GetVacationCommentResponse makeCommentForVacation(MakeCommentForVacationR
     VacationComments vacationComments = VacationComments.builder()
     .comment(request.getComment())
     .rating(request.getRating())
-    .vacation(vacation)
     .author(appUser)
     .build();
     vacationCommentRepository.save(vacationComments);
@@ -46,6 +45,7 @@ public GetVacationCommentResponse makeCommentForVacation(MakeCommentForVacationR
     .id(appUser.getId())
     .firstName(appUser.getFirstName())
     .lastName(appUser.getLastName())
+
     .email(appUser.getEmail())
     .phoneNumber(appUser.getPhoneNumber())
     .build();
@@ -64,9 +64,10 @@ public GetVacationCommentResponse makeCommentForVacation(MakeCommentForVacationR
 
 
 @Override
-public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) {
+public List<GetVacationCommentResponse> getAllVacationComments(Long vacationId) {
     List<VacationComments> vacationComments = vacationCommentRepository.findAllByVacationId(vacationId);
     List<GetVacationCommentResponse> responses = new ArrayList<>();
+
 
     for(VacationComments vacationComment : vacationComments){
         AppUser appUser = null;
@@ -99,10 +100,11 @@ public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) 
     return responses;
 }
     @Override
-    public GetVacationCommentResponse getVacationCommentById(UUID vacationCommentId){
+    public GetVacationCommentResponse getVacationCommentById(Long vacationCommentId){
         VacationComments vacationComments = vacationCommentRepository.findById(vacationCommentId).orElseThrow(() -> new RuntimeException("Vacation comment not found"));
         AppUser appUser = appUserRepository.findById(vacationComments.getAuthor().getId()).orElseThrow(() -> new RuntimeException("AppUser not found"));
         AppUserResponse appUserResponse = AppUserResponse.builder()
+
         .id(appUser.getId())
         .firstName(appUser.getFirstName())
         .lastName(appUser.getLastName())
@@ -122,7 +124,7 @@ public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) 
         .build();
     }
     @Override
-    public GetVacationCommentResponse deleteVacationComment(UUID vacationCommentId){
+    public GetVacationCommentResponse deleteVacationComment(Long vacationCommentId){
         vacationCommentRepository.deleteById(vacationCommentId);
         return GetVacationCommentResponse.builder()
         .message("Vacation comment deleted successfully")
@@ -130,6 +132,7 @@ public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) 
         .code("200")
         .build();
     }
+
     @Override
     public GetVacationCommentResponse updateVacationComment(MakeCommentForVacationRequest request){
        
@@ -176,10 +179,10 @@ public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) 
         VacationComments vacationComments = VacationComments.builder()
         .comment(request.getComment())
         .rating(request.getRating())
-        .vacation(vacationDisplayMedia.getVacation())
         .author(appUser)
         .build();
         
+
         vacationCommentRepository.save(vacationComments);
         AppUserResponse appUserResponse = AppUserResponse.builder()
         .id(appUser.getId())
@@ -237,10 +240,11 @@ public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) 
     }
 
     @Override
-    public List<GetVacationCommentResponse> getAllVacationCommentsForDisplayMedia(UUID vacationId){
+    public List<GetVacationCommentResponse> getAllVacationCommentsForDisplayMedia(Long vacationId){
         List<VacationComments> vacationComments = vacationCommentRepository.findAllByVacationId(vacationId);
         List<GetVacationCommentResponse> responses = new ArrayList<>();
         for(VacationComments vacationComment : vacationComments){
+
             responses.add(GetVacationCommentResponse.builder().build());
             AppUser appUser = vacationComment.getAuthor();
             AppUserResponse appUserResponse = AppUserResponse.builder()
@@ -267,13 +271,14 @@ public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) 
     }
 
     @Override
-    public GetVacationCommentResponse getVacationCommentForDisplayMediaById(UUID vacationCommentId){
+    public GetVacationCommentResponse getVacationCommentForDisplayMediaById(Long vacationCommentId){
         VacationComments vacationComments = vacationCommentRepository.findById(vacationCommentId)
         .orElseThrow(() -> new RuntimeException("Vacation comment not found"));
         AppUser appUser = vacationComments.getAuthor();
         AppUserResponse appUserResponse = AppUserResponse.builder()
         .id(appUser.getId())
         .firstName(appUser.getFirstName())
+
         .profilePicture(appUser.getProfilePictureLink())
         .lastName(appUser.getLastName())
         .email(appUser.getEmail())
@@ -293,13 +298,14 @@ public List<GetVacationCommentResponse> getAllVacationComments(UUID vacationId) 
     }
 
     @Override
-    public GetVacationCommentResponse deleteVacationCommentForDisplayMedia(UUID vacationCommentId){
+    public GetVacationCommentResponse deleteVacationCommentForDisplayMedia(Long vacationCommentId){
         vacationCommentRepository.deleteById(vacationCommentId);
         return GetVacationCommentResponse.builder()
         .message("Vacation comment deleted successfully")
         .status("success")
         .code("200")
         .build();
+
     }
 }
 

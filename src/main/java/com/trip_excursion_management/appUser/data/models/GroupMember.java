@@ -11,19 +11,21 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import jakarta.persistence.ManyToOne;
-
-
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class GroupMember {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "app_user_id", nullable = false, unique = true)
     private AppUser appUser;
 
     @ManyToOne

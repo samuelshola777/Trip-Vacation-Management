@@ -2,7 +2,7 @@ package com.trip_excursion_management.appUser.service.implementations;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.UUID;
+
 
 import org.springframework.stereotype.Service;
 
@@ -57,14 +57,16 @@ try{
     // save the app user
     AppUser savedAppUser = appUserRepository.save(appUser);
     // create the app user role control
+    AppUserRole appUserRole = appUserRoleRepository.findByRoleName("APP_USER").orElseThrow(() -> new RuntimeException("App User Role not found"));
     AppUserRoleControl appUserRoleControl = AppUserRoleControl.builder()
     .appUser(savedAppUser)
-    .appUserRole(Set.of(appUserRoleRepository.findByRoleName("APP_USER").orElseThrow(() -> new RuntimeException("App User Role not found"))))
+    .appUserRole(appUserRole)
     .createdAt(LocalDateTime.now())
     .updatedAt(LocalDateTime.now())
     .isActive(true)
     .build();
     // save the app user role control
+
   appUserRoleControlRepository.save(appUserRoleControl);
   // return the response
     return RegisterAppUserResponse.builder()
@@ -123,7 +125,7 @@ public RegisterAppUserResponse updateAppUser(RegisterAppUserRequest updateReques
 
 @Override
 public RegisterAppUserResponse deleteAppUser(String appUserId){
-    AppUser appUser = appUserRepository.findById(UUID.fromString(appUserId)).orElseThrow(() -> new RuntimeException("App User not found"));
+    AppUser appUser = appUserRepository.findById(Long.parseLong(appUserId)).orElseThrow(() -> new RuntimeException("App User not found"));
     AppUserRoleControl appUserRoleControl = appUserRoleControlRepository.findByAppUser(appUser.getId()).orElseThrow(() -> new RuntimeException("App User Role Control not found"));
     appUserRoleControlRepository.delete(appUserRoleControl);
     appUserRepository.delete(appUser);
@@ -186,13 +188,14 @@ public RegisterAppUserResponse deleteAppUser(String appUserId){
     }
 
     @Override
-    public AppUserResponse getAppUserById(UUID appUserId){
+    public AppUserResponse getAppUserById(Long appUserId){
        AppUser appUser = appUserRepository.findById(appUserId).orElseThrow(() -> new RuntimeException("App User not found"));
         return AppUserResponse.builder()
         .id(appUser.getId())
         .email(appUser.getEmail())
         .firstName(appUser.getFirstName())
         .lastName(appUser.getLastName())
+
         .phoneNumber(appUser.getPhoneNumber())
         .profilePicture(appUser.getProfilePictureLink())
         .appUserRoleControl(appUser.getAppUserRoleControl())

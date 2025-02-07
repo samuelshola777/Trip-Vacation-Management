@@ -13,29 +13,31 @@ import java.util.UUID;
 import com.trip_excursion_management.appUser.data.models.AppUser;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Column;
-
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class VacationComments {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String comment;
     private int rating;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id", nullable = true)
+    @JoinColumn(name = "app_user_id", nullable = false)
     private AppUser author;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vacation_history_id", nullable = true)
-    private Vacation vacation;
-  
+    
+
 }

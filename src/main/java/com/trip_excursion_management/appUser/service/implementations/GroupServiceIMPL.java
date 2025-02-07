@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import com.trip_excursion_management.vacation.data.repositories.VacationPlanRepository;
 import lombok.RequiredArgsConstructor;
-import java.util.UUID;
 import com.trip_excursion_management.vacation.data.model.VacationPlan;
 import com.trip_excursion_management.vacation.data.model.VacationPlanStatus;
 
@@ -327,9 +326,10 @@ if(addAppUserToGroupRequest.getAppUserEmail().size() != 0){
         .build();
     }
     @Override
-    public Group getGroup(UUID id){
+    public Group getGroup(Long id){
         return groupRepository.findById(id).orElseThrow(() -> new RuntimeException("Group not found"));
     }
+
     private boolean isVacationPlanPending(VacationPlan vacationPlan){
         if(vacationPlan != null && vacationPlan.getVacationPlanStatus() != VacationPlanStatus.PENDING || vacationPlan != null && vacationPlan.getVacationPlanStatus() != VacationPlanStatus.CANCELLED || vacationPlan != null && vacationPlan.getVacationPlanStatus() != VacationPlanStatus.REJECTED || vacationPlan != null && vacationPlan.getVacationPlanStatus() != VacationPlanStatus.COMPLETED){
             return false;

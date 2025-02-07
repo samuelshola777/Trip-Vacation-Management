@@ -13,7 +13,6 @@ import com.trip_excursion_management.vacation.dto.response.CreateVacationPlanRes
 import com.trip_excursion_management.vacation.service.interfaces.VacationPlanService;
 import com.trip_excursion_management.vacation.data.model.VacationPlan;
 import lombok.AllArgsConstructor;
-import java.util.UUID;
 import java.util.List;
 @RestController
 @AllArgsConstructor
@@ -27,9 +26,10 @@ public class VacationController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<VacationPlan> getVacationPlan(@PathVariable UUID id){
+    public ResponseEntity<VacationPlan> getVacationPlan(@PathVariable Long id){
         return ResponseEntity.ok(vacationPlanService.getVacationPlan(id));
     }
+
 
     @GetMapping("/get/all")
     public ResponseEntity<List<VacationPlan>> getAllVacationPlan(){

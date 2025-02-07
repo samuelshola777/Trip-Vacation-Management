@@ -5,13 +5,13 @@ import java.util.Set;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
 
 @Data
 @Builder
 public class RemoveOrAddToGroupRequest {
     private Set<String> appUserEmail;
     private Set<String> appUserPhoneNumber;
-    private UUID groupId;
-    private UUID appUserId;
+    private Long groupId;
+    private Long appUserId;
 }
+

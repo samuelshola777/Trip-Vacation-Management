@@ -7,16 +7,18 @@ import com.trip_excursion_management.appUser.dtos.response.CreateGroupResponse;
 import com.trip_excursion_management.appUser.dtos.response.GetGroupByIdResponse;
 import com.trip_excursion_management.appUser.dtos.request.RemoveOrAddToGroupRequest;
 
-import java.security.Principal;
-import java.util.UUID;
+
+
+
 
 public interface GroupService {
 
     CreateGroupResponse createGroup(CreateGroupRequest createGroupRequest);
 
-    Group getGroup(UUID id);
+    Group getGroup(Long id);
 
     CreateGroupResponse updateGroup(CreateGroupRequest updateGroupRequest);
+
 
     CreateGroupResponse addAppUserToGroup(AddAppUserToGroupRequest addAppUserToGroupRequest);
 

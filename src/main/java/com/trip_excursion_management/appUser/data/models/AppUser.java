@@ -1,6 +1,8 @@
 package com.trip_excursion_management.appUser.data.models;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -14,17 +16,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import java.util.stream.Collectors;
 @Entity
 @Table(name = "app_user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AppUser {
+
+public class AppUser implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -40,7 +47,7 @@ public class AppUser {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
    @OneToOne(mappedBy = "appUser")
@@ -49,6 +56,39 @@ public class AppUser {
    private boolean isActive;
 
    private LocalDateTime createdAt;
+
+   @Override
+   public String getUsername() {
+       return email;
+   }
+
+   @Override
+   public Collection<? extends GrantedAuthority> getAuthorities() {
+       return mapRolesToAuthorities();
+   }
+
+   @Override
+   public boolean isAccountNonExpired() {
+       return isActive;
+   }
+
+   @Override
+   public boolean isAccountNonLocked() {
+       return isActive;
+   }
+
+   @Override
+   public boolean isCredentialsNonExpired() {
+       return isActive;
+   }
+
+   @Override
+   public boolean isEnabled() {
+       return isActive;
+   }
+
+   private Collection<? extends GrantedAuthority> mapRolesToAuthorities() {
+       return appUserRoleControl != null ? Collections.singleton(new SimpleGrantedAuthority(appUserRoleControl.getAppUserRole().getRoleName()))
+           : Collections.emptyList();
+   }
 }
-
-

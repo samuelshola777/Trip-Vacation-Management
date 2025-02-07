@@ -11,10 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.NoArgsConstructor;
-
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
+import jakarta.persistence.Column;
 
 @Entity
 @Data
@@ -23,19 +26,27 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AppUserRoleControl {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
 
     @OneToOne
 
     @JoinColumn(name = "app_user_id", nullable = false, unique = true)
     private AppUser appUser;
 
-    @ManyToOne
-    @JoinColumn(name = "app_user_role_id")
-    private Set<AppUserRole> appUserRole;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "app_user_role_id", nullable = false)
+    private AppUserRole appUserRole;
 
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "is_active")
     private boolean isActive;
+
 }

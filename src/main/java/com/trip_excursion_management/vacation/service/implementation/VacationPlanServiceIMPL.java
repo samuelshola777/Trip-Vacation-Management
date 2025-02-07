@@ -1,6 +1,5 @@
 package com.trip_excursion_management.vacation.service.implementation;
 
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.trip_excursion_management.vacation.dto.request.CreateVacationPlanRequest;
@@ -47,9 +46,10 @@ public class VacationPlanServiceIMPL implements VacationPlanService{
     }
 
     @Override
-    public VacationPlan getVacationPlan(UUID id) {
+    public VacationPlan getVacationPlan(Long id) {
         return vacationPlanRepository.findById(id).orElseThrow(() -> new RuntimeException("Vacation plan not found"));
     }
+
 
     @Override
     public List<VacationPlan> getAllVacationPlan() {
@@ -67,11 +67,12 @@ public class VacationPlanServiceIMPL implements VacationPlanService{
     }
 
     @Override
-    public VacationPlan deleteVacationPlan(UUID id) {
+    public VacationPlan deleteVacationPlan(Long id) {
         VacationPlan vacationPlan = vacationPlanRepository.findById(id).orElseThrow(() -> new RuntimeException("Vacation plan not found"));
         vacationPlan.setDeleted(true);
         return vacationPlanRepository.save(vacationPlan);
     }
+
 
 
     

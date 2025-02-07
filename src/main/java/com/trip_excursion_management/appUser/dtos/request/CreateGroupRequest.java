@@ -10,8 +10,9 @@ public class CreateGroupRequest {
     private String groupName;
     private String description;
     private String groupImage;
-    private UUID appUserId;
-    private UUID groupId;
+    private Long appUserId;
+    private Long groupId;
+
    
     
 }

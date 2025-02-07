@@ -44,9 +44,10 @@ public CreateVacationResponse uploadVacationDisplayMedia(AddMediaRequest request
 }
 
 @Override
- public List<GetVacationDisplayMediaResponse> getAllVacationDisplayMedia(UUID vacationId){
+ public List<GetVacationDisplayMediaResponse> getAllVacationDisplayMedia(Long vacationId){
     List<VacationDisplayMedia> listOfVacationMedia = vacationDisplayMediaRepository.findAllByVacationId(vacationId);
     List<GetVacationDisplayMediaResponse> responses = new ArrayList<>();
+
 
     for (VacationDisplayMedia media : listOfVacationMedia) {
         
@@ -69,7 +70,6 @@ private List<GetVacationCommentResponse> mapVacationCommentToVacationCommentResp
         .rating(comment.getRating())
         .createdAt(comment.getCreatedAt())
         .author(mapAppUserToAppUserResponse(comment.getAuthor()))
-        .vacationId(comment.getVacation().getId())
         .message("Comment created successfully")
         .status("success")
         .code("200")

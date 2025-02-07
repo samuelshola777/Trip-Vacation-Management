@@ -14,15 +14,17 @@ import com.trip_excursion_management.appUser.dtos.response.AppUserResponse;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetVacationCommentResponse {
-    private UUID id;
+    private Long id;
     private String comment;
     private AppUserResponse author;
     private int rating;
     private LocalDateTime createdAt;
     private String message;
+
     private String status;
     private String code;
-    private UUID vacationId;
+    private Long vacationId;
+
 
 
 }

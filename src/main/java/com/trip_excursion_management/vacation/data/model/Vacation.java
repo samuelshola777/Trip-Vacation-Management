@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.UUID;
 import java.util.List;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
@@ -23,8 +22,8 @@ import jakarta.persistence.Column;
 @Builder
 public class Vacation {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String description;
     @Column(name = "rating", nullable = true)
@@ -33,10 +32,11 @@ public class Vacation {
     @Enumerated(EnumType.STRING)
     @Column(name = "trip_type", nullable = false, unique = true)
     private VacationTripTypes tripType;
-    @OneToMany(mappedBy = "vacation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VacationHistory> vacationHistories;
-    @OneToMany(mappedBy = "vacation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VacationComments> vacationHistoryComments;
+
     @OneToMany(mappedBy = "vacation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VacationPlan> vacationPlans;
     @OneToMany(mappedBy = "vacation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
